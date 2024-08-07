@@ -8,6 +8,7 @@ The requirements to run the code are:
 - numpy 
 - matplotlib
 - scipy
+- skimage
 - astropy
 - [dLux](https://github.com/LouisDesdoigts/dLux)
 
