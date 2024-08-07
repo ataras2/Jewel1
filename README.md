@@ -9,6 +9,8 @@ The requirements to run the code are:
 - matplotlib
 - scipy
 - skimage
+- pandas
+- scanf
 - astropy
 - [dLux](https://github.com/LouisDesdoigts/dLux)
 
