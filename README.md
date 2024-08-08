@@ -4,15 +4,16 @@ This is a repository containing the data and source code used to generate the fi
 
 ## Quickstart
 
-The requirements to run the code are:
-- numpy 
-- matplotlib
-- scipy
-- astropy
-- [dLux](https://github.com/LouisDesdoigts/dLux)
+The code requires python >=3.10. The `requirements.txt` file lists all Python libraries that are required. They can be installed using:
+
+```bash
+pip install -r requirements.txt
+```
+
 
 The figure to script mapping is the following:
-- Figure 5: `???` (also uses the image data from `data/`)
+- Figures 1,5: `Fig_1_5.py` (also uses the image data from `data/`)
+- Figure 2: `Fig_2.py`
 - Figure 6: `m_achromat_design.py`
 
 ## Citing

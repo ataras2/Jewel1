@@ -178,7 +178,7 @@ for j, cart_hex_centers in enumerate(centers):
                 line_width = 1
                 edge_color = colour_vect[i]
             
-            patch = patches.RegularPolygon((seg_coord[0], seg_coord[1]), 6, mask_pattern._rmax, #  color=colour_vect[i]
+            patch = patches.RegularPolygon((seg_coord[0], seg_coord[1]), 6, radius=mask_pattern._rmax, #  color=colour_vect[i]
                                             label = str(i), orientation=-mask_pattern.seg_rotation + np.pi/6,
                                             edgecolor=edge_color, facecolor = colour_vect[i], linewidth = line_width)
             ax.add_artist(patch)
