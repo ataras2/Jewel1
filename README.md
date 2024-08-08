@@ -10,7 +10,6 @@ The code requires python >=3.10. The `requirements.txt` file lists all Python li
 pip install -r requirements.txt
 ```
 
-
 The figure to script mapping is the following:
 - Figures 1,5: `Fig_1_5.py` (also uses the image data from `data/`)
 - Figure 2: `Fig_2.py`
