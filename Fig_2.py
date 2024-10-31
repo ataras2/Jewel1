@@ -113,7 +113,7 @@ jewel_mask = JewelMask(mask_pattern=mask_pattern,
                        wedge_angles=np.array([wedge_angle, wedge_angle]),
                        slope_orientations= np.array([np.pi/180 *45 , np.pi/180 *135]), 
                        materials=[mat, mat],
-                    #    glass_trans = transmittance,
+                       glass_trans = 1-2*reflectance,
                     ) 
 optics = dl.AngularOpticalSystem(
     wf_npixels=wf_npix,
