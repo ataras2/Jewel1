@@ -391,7 +391,7 @@ op_psf = opaque_optic.propagate_mono(wavelength_center)
 
 
 def calc_jewel_throughput(n_surfs, reflec):
-
+    n_wedges=2
     jewel_mask = JewelMask(
         mask_pattern=mask_pattern,
         n_pix=n_pix,
@@ -399,8 +399,7 @@ def calc_jewel_throughput(n_surfs, reflec):
         wedge_angles=np.array([wedge_angle, wedge_angle]),
         slope_orientations=np.array([np.pi / 180 * 45, np.pi / 180 * 135]),
         materials=[mat, mat],
-        # glass_trans=1 - n_surfs * reflec,
-        glass_trans=(1 - reflec) ** n_surfs,
+        glass_trans=1 - n_surfs/n_wedges * reflec,
     )
     optics = dl.AngularOpticalSystem(
         wf_npixels=wf_npix,
