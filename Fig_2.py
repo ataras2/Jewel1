@@ -38,8 +38,11 @@ tscope = telescope_factory("subaru_vis")
 
 # Jewel Mask (in pupil wheel)
 prim_diam = tscope.pupil  # Primary diameter (m)
+secondary_diam = (
+    tscope.secondary / tscope.primary * tscope.pupil
+)  # Secondary diameter (m)
 grid_size = 7e-03  # Dimension of underlying rectangular grid within primary diam (m)
-shim_width = 50e-6  # Width of the shim (m)
+shim_width = 140e-6  # Width of the shim (m)
 
 # Jewel Mask simulated
 n_pix = 512  # Number of pixels defining primary diameter
@@ -67,7 +70,10 @@ transmittance = 1 - reflectance
 
 # -------------------------------------------------------------------------------------------------#
 # Generate tscope aperture layer (const between two optical systems) and get initial intensity
-tscope_ap = dlu.circle(coords=pixel_coords, radius=0.5 * prim_diam)
+
+primary = dlu.circle(coords=pixel_coords, radius=0.5 * prim_diam)
+secondary = dlu.circle(coords=pixel_coords, radius=0.5 * secondary_diam)
+tscope_ap = primary - secondary
 tscope_layer_tup = ("tscope", dl.layers.TransmissiveLayer(transmission=tscope_ap))
 tscope_optic = dl.AngularOpticalSystem(
     wf_npixels=wf_npix,
@@ -348,7 +354,16 @@ plt.show()
 # -------------------------------------------------------------------------------------------------#
 # Generate opaque mask with JewelMask pattern
 # For one NR pattern
-single_pat_cens = mask_pattern.cart_hex_centers[
+ideal_mask_pattern = MaskPattern.from_file(
+    fname=fname,
+    solution_idx=sol_idx,
+    primary_diam=prim_diam,
+    grid_size=grid_size,
+    shim_width=0,  # an ideal conventional mask doesn't need shim
+    tf=pattern_tf,
+    manual_machining_seq=manual_machining_sequence,
+)
+single_pat_cens = ideal_mask_pattern.cart_hex_centers[
     1
 ]  # just grabbing first (no justification really)
 
@@ -356,7 +371,7 @@ sub_ap = []
 for cen in single_pat_cens:
     tf = dl.CoordTransform(translation=cen, rotation=np.pi / 6)
     sub_ap.append(
-        dl.RegPolyAperture(nsides=6, rmax=mask_pattern._rmax, transformation=tf)
+        dl.RegPolyAperture(nsides=6, rmax=ideal_mask_pattern._rmax, transformation=tf)
     )
 
 aperture = dl.MultiAperture(sub_ap)
