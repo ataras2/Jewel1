@@ -10,6 +10,14 @@ The code requires python >=3.10. The `requirements.txt` file lists all Python li
 pip install -r requirements.txt
 ```
 
+You will also need to install `ehtplot` from source:
+    
+```bash
+git clone https://github.com/liamedeiros/ehtplot.git
+cd ehtplot
+pip install .
+```
+
 The figure to script mapping is the following:
 - Figures 1,5: `Fig_1_5.py` (also uses the image data from `data/`)
 - Figure 2: `Fig_2.py`

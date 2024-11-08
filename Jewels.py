@@ -204,6 +204,7 @@ class AchromatSolver:
         assert len(materials_str) >= n_materials
 
         deviations = []
+        optimal_solutions = []
 
         for material_subset in itertools.combinations(
             materials_str, n_materials
@@ -226,12 +227,13 @@ class AchromatSolver:
                 solver.deviation(x_opt.x * u.arcmin, wavel_range)
                 / solver.tscope.magnification
             )
+            optimal_solutions.append(x_opt.x * u.arcmin)
             print(
                 f"{material_subset} has optimal wedge angles: \
                     {x_opt.x*u.arcmin} with chromatic dispersion \
                     {on_sky_dispersion.to(u.mas):.2f}"
             )
-        return deviations
+        return deviations, optimal_solutions
 
 class MachiningSequenceSolver:
     """
