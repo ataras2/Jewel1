@@ -91,9 +91,11 @@ mask_pattern = MaskPattern.from_file(fname=fname,
                                     tf=pattern_tf,
                                     manual_machining_seq=manual_machining_sequence,
                                     )
-
 # For later plotting to illustrate binary search for Jewel tesselations
-hex_idxs = np.array( [[23,2, 19, 16],[11, 18,  0, 14],[ 1,  8, 24,  5],[13,  6, 10, 22]] )
+# hex_idxs = np.array( [[23,2, 19, 16],[11, 18,  0, 14],[ 1,  8, 24,  5],[13,  6, 10, 22]] )
+# hex_idxs = np.array( [[23,6, 19, 16],[11, 18,  0, 14],[ 1,  8, 22,  5],[13,  2, 10, 24]] )
+hex_idxs = np.array( [[23,2, 19, 6],[11, 18,  0, 14],[ 1,  8, 22,  5],[13,  16, 10, 24]] )
+
 dummy_mask_pattern = MaskPattern(n_pat = 4,
                                  n_seg=4,
                                  hex_idxs=hex_idxs,
@@ -113,7 +115,7 @@ jewel_mask = JewelMask(mask_pattern=mask_pattern,
                        wedge_angles=np.array([wedge_angle, wedge_angle]),
                        slope_orientations= np.array([np.pi/180 *45 , np.pi/180 *135]), 
                        materials=[mat, mat],
-                       glass_trans = 1-2*reflectance,
+                       glass_trans = (1-reflectance)**2,
                     ) 
 optics = dl.AngularOpticalSystem(
     wf_npixels=wf_npix,
@@ -168,10 +170,10 @@ for j, cart_hex_centers in enumerate(centers):
     for i, pattern in enumerate(cart_hex_centers):
         patch = 0
         for k, seg_coord in enumerate(pattern):
-            if (i == 3 and k == 3):
+            if (i == 0 and k == 3):
                 line_width = 2
                 edge_color = "black"
-            elif i ==2 and k ==2:
+            elif i ==3 and k ==1:
                 line_width = 2
                 edge_color = "black"
             else:
@@ -182,6 +184,7 @@ for j, cart_hex_centers in enumerate(centers):
                                             label = str(i), orientation=-mask_pattern.seg_rotation + np.pi/6,
                                             edgecolor=edge_color, facecolor = colour_vect[i], linewidth = line_width)
             ax.add_artist(patch)
+            # plt.text(seg_coord[0], seg_coord[1], str(k), fontsize=8, color="black")
         lgnd_patches.append(patch)
 
         primary_m = plt.Circle((0.0, 0.0), prim_diam / 2.0, color="black", fill=False)
@@ -262,8 +265,8 @@ dummy_psf.set_windowing_parameters(sub_psf_window_sz= sub_psf_window_sz,
 dummy_sub_psfs_list, dummy_sub_psf_bounds, dummy_shifts = dummy_psf.sub_psfs(plot_psf = False, plot_FT_psf = False)
 
 
-dummy_psf = np.pad(dummy_sub_psfs_list[0],200)
-opt_psf = np.pad(simu_sub_psfs_list[0],200)
+dummy_psf = np.pad(dummy_sub_psfs_list[3],200)
+opt_psf = np.pad(simu_sub_psfs_list[3],200)
 
 ax_lim = [opt_psf.shape[0]/2 - 60, opt_psf.shape[0]/2 + 60]
 
@@ -278,11 +281,13 @@ plt.ylim(ax_lim)
 plt.xticks([])
 plt.yticks([])  
 plt.xlabel("(a)")
-plt.suptitle("Pattern 4 Interferogram")
+plt.suptitle("Pattern 1 Interferogram")
 plt.title("Initial Tiling")
 processed_fft = im_fft
 splodges_mask = get_splodges_mask(processed_fft, min_peak = 5e-15, radius=8)
-plt.imshow(processed_fft*splodges_mask, cmap='pink_ur',norm=norm_ps)
+norm_processed_fft = 0 + (1-0)/(processed_fft.max()-processed_fft.min())*(processed_fft-processed_fft.min())
+norm_ps = PowerNorm(0.25, vmax=norm_processed_fft.max(), vmin=norm_processed_fft.min())
+plt.imshow(norm_processed_fft*splodges_mask, cmap='pink_ur',norm=norm_ps)
 
 plt.subplot(1,2,2)
 im_fft = np.abs(np.fft.fftshift(np.fft.fft2(opt_psf)))**2 
@@ -294,7 +299,9 @@ plt.title("Tile Swap")
 plt.xlabel("(b)")
 processed_fft = im_fft#**0.1
 splodges_mask = get_splodges_mask(processed_fft, min_peak = 5e-15, radius=8)
-plt.imshow(processed_fft*splodges_mask, cmap='pink_ur',norm=norm_ps)
+norm_processed_fft = 0 + (1-0)/(processed_fft.max()-processed_fft.min())*(processed_fft-processed_fft.min())
+norm_ps = PowerNorm(0.25, vmax=norm_processed_fft.max(), vmin=norm_processed_fft.min())
+plt.imshow(norm_processed_fft*splodges_mask, cmap='pink_ur',norm=norm_ps)
 plt.colorbar(label = "Power", norm=norm_ps)
 
 plt.show()
