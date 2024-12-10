@@ -65,7 +65,7 @@ tscope = telescope_factory("subaru_vis")
 wavel = tscope.filters[0].center
 
 # parameters for how much money you use on manufacturing:
-shim_width = 20 * u.um
+shim_width = 40 * u.um
 is_ar_coated = False
 is_glued_stack = False
 material = "mgf2"
