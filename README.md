@@ -28,10 +28,16 @@ The figure to script mapping is the following:
 If you find this work helpful, please cite:
 
 ```bibtex
-@article{
-    title = {Jewel masks I: non-redundant Fizeau beam combination without the guilt},
+@article{10.1117/1.JATIS.11.1.015004,
     author = {Adam K. Taras and Grace Piroscia and Peter Tuthill},
-    journal = {in prep.},
-    year = {2024}
+    title = {{Jewel Optics I: non-redundant Fizeau beam combination without the guilt}},
+    volume = {11},
+    journal = {Journal of Astronomical Telescopes, Instruments, and Systems},
+    number = {1},
+    publisher = {SPIE},
+    pages = {015004},
+    year = {2025},
+    doi = {10.1117/1.JATIS.11.1.015004},
+    URL = {https://doi.org/10.1117/1.JATIS.11.1.015004}
 }
 ```
