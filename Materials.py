@@ -2,7 +2,9 @@
 Classes for working with different optical materials
 """
 
-import numpy as np
+# import numpy as np
+import jax.numpy as np
+
 
 
 

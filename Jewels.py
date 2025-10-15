@@ -751,7 +751,7 @@ class MaskPattern:
         for i, pattern in enumerate(self.cart_hex_centers):
             patch = 0
             for seg_coord in pattern:
-                patch = patches.RegularPolygon((seg_coord[0], seg_coord[1]), 6, self._rmax, color=colour_vect[i], 
+                patch = patches.RegularPolygon(xy=(seg_coord[0], seg_coord[1]), numVertices=6, radius=self._rmax, color=colour_vect[i], 
                                                label = str(i), orientation=-self.seg_rotation + np.pi/6, fill=True)
                 ax.add_artist(patch)
             lgnd_patches.append(patch)
